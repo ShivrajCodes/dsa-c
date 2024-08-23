@@ -33,3 +33,12 @@ int pop()
     }
     return x;
 }
+void Display ()
+{
+    struct Node *p;
+    p=top;
+    while(p!=NULL)
+    {
+        
+    }
+}
