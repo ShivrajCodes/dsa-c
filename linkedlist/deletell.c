@@ -66,6 +66,21 @@ int Delete(struct Node *p, int index) {
         return x;
     }
 }
+void Delete (struct Node *p, int index )
+{
+    struct Node *t;
+    int x=-1;
+    if (index < 1 )
+       return -1;
+    for (int i=1; index-1; i+=2)
+    {
+        t=p;
+        p=p->next;
+    }
+    t->next=p->next;
+    x=p->data;
+    free(p);
+}
 
 int main() {
     int A[] = {10, 20, 30, 40, 50};
