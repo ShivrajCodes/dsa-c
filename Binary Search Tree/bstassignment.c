@@ -128,3 +128,105 @@ int main() {
 
     return 0;
 }
+
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+
+# Insert a node in the Binary Search Tree
+def insert(root, data):
+    if root is None:
+        return Node(data)
+    if data < root.data:
+        root.left = insert(root.left, data)
+    else:
+        root.right = insert(root.right, data)
+    return root
+
+# Inorder Traversal
+def inorder(root):
+    if root:
+        inorder(root.left)
+        print(root.data, end=" ")
+        inorder(root.right)
+
+# Preorder Traversal
+def preorder(root):
+    if root:
+        print(root.data, end=" ")
+        preorder(root.left)
+        preorder(root.right)
+
+# Postorder Traversal
+def postorder(root):
+    if root:
+        postorder(root.left)
+        postorder(root.right)
+        print(root.data, end=" ")
+
+# Count number of nodes
+def count_nodes(root):
+    if root is None:
+        return 0
+    return 1 + count_nodes(root.left) + count_nodes(root.right)
+
+# Find the height of the tree
+def find_height(root):
+    if root is None:
+        return -1
+    return max(find_height(root.left), find_height(root.right)) + 1
+
+# Count leaf nodes
+def count_leaf_nodes(root):
+    if root is None:
+        return 0
+    if root.left is None and root.right is None:
+        return 1
+    return count_leaf_nodes(root.left) + count_leaf_nodes(root.right)
+
+# Count internal nodes
+def count_internal_nodes(root):
+    if root is None or (root.left is None and root.right is None):
+        return 0
+    return 1 + count_internal_nodes(root.left) + count_internal_nodes(root.right)
+
+# Search a data in the tree
+def search(root, key):
+    if root is None:
+        return False
+    if root.data == key:
+        return True
+    if key < root.data:
+        return search(root.left, key)
+    return search(root.right, key)
+
+# Main program
+if __name__ == "__main__":
+    root = None
+    root = insert(root, 50)
+    insert(root, 30)
+    insert(root, 70)
+    insert(root, 20)
+    insert(root, 40)
+    insert(root, 60)
+    insert(root, 80)
+
+    print("Inorder traversal: ", end="")
+    inorder(root)
+    print("\nPreorder traversal: ", end="")
+    preorder(root)
+    print("\nPostorder traversal: ", end="")
+    postorder(root)
+
+    print(f"\nNumber of nodes: {count_nodes(root)}")
+    print(f"Height of tree: {find_height(root)}")
+    print(f"Number of leaf nodes: {count_leaf_nodes(root)}")
+    print(f"Number of internal nodes: {count_internal_nodes(root)}")
+
+    key = 60
+    if search(root, key):
+        print(f"\n{key} is found in the tree.")
+    else:
+        print(f"\n{key} is not found in the tree.")
