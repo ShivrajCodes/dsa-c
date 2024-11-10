@@ -36,7 +36,8 @@ void display(struct Node *p)
 
 int main()
 {
-    int A[] = {3, 5, 7, 10, 15};  
+     
+     
     create(A, 5);
 
     display(first);  
