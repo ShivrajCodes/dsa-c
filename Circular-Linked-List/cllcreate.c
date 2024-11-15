@@ -109,7 +109,7 @@ void Delete(struct Node *p, int index)
     }
     else
     {
-        for(i = 0; i < index - 2; i++) p = p->next;
+        for(i = 0; i < index - 1; i++) p = p->next;
         q = p->next;
         p->next = q->next;
         x = q->data;
