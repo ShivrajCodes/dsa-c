@@ -39,6 +39,8 @@ void Display ()
     p=top;
     while(p!=NULL)
     {
+        printf("%d ",p->data);
+        p=p->next;
         
     }
 }

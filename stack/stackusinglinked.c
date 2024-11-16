@@ -39,6 +39,7 @@ void Display ()
     p=top;
     while(p!=NULL)
     {
-        
+        ("%d ",p->data);
+        p=p->next;
     }
 }

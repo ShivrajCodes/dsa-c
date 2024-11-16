@@ -1,13 +1,13 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include<string.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 struct Node {
-    int data;
+    char data;
     struct Node *next;
 } *top = NULL;
 
-void push(int x) {
+void push(char x) {
     struct Node *t;
     t = (struct Node *)malloc(sizeof(struct Node));
     if (t == NULL)
@@ -19,9 +19,9 @@ void push(int x) {
     }
 }
 
-int pop() {
+char pop() {
     struct Node *t;
-    int x = -1;
+    char x = -1;
     if (top == NULL)
         printf("Stack is empty \n");
     else {
@@ -33,21 +33,18 @@ int pop() {
     return x;
 }
 
-int isBalanced(char *exp) {
+int isBalanced(char *infix) {
     int i;
-    for (i = 0; exp[i] != '\0'; i++) {
-        if (exp[i] == '(')
-            push(exp[i]);
-        else if (exp[i] == ')') {
+    for (i = 0; infix[i] != '\0'; i++) {
+        if (infix[i] == '(')
+            push(infix[i]);
+        else if (infix[i] == ')') {
             if (top == NULL)
                 return 0;
             pop();
         }
     }
-    if (top == NULL)
-        return 1;
-    else
-        return 0;
+    return top == NULL;
 }
 
 int pre(char x) {
@@ -59,25 +56,33 @@ int pre(char x) {
 }
 
 int isOperand(char x) {
-    if (x == '+' || x == '-' || x == '*' || x == '/')
+    if (x == '+' || x == '-' || x == '*' || x == '/' || x == '(' || x == ')')
         return 0;
-    else
-        return 1;
+    return 1;
 }
 
 char *IntoPost(char *infix) {
     int i = 0, j = 0;
     char *postfix;
     int len = strlen(infix);
-    postfix = (char *)malloc(len + 1 * sizeof(char));
+    postfix = (char *)malloc((len + 1) * sizeof(char));
     
     push('#');
     
     while (infix[i] != '\0') {
         if (isOperand(infix[i])) {
             postfix[j++] = infix[i++];
+        } else if (infix[i] == '(') {
+            push(infix[i++]);
+        } else if (infix[i] == ')') {
+            while (top != NULL && top->data != '(') {
+                postfix[j++] = pop();
+            }
+            if (top != NULL && top->data == '(')
+                pop();
+            i++;
         } else {
-            while (pre(infix[i]) <= pre(top->data)) {
+            while (top != NULL && pre(infix[i]) <= pre(top->data)) {
                 postfix[j++] = pop();
             }
             push(infix[i++]);
@@ -95,7 +100,12 @@ char *IntoPost(char *infix) {
 int main() {
     char *infix = "((a+b))*((c-d))";
     char *postfix;
-    
+
+    if (!isBalanced(infix)) {
+        printf("The infix expression is not balanced.\n");
+        return 1;
+    }
+
     postfix = IntoPost(infix);
     printf("Postfix: %s\n", postfix);
     
